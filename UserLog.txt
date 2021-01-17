@@ -1,7 +1,0 @@
-Successful login for user Emmanuel at 17-Jan-2021 2:33PM
-Login error for user Emmanuel at 17-Jan-2021 2:33PM
-Login error for user Harish at 17-Jan-2021 2:33PM
-Successful login for user Harish at 17-Jan-2021 2:33PM
-Successful login for user Elisabeth at 17-Jan-2021 2:34PM
-Login error for user Elisabeth at 17-Jan-2021 2:34PM
-Successful login for user Elisabeth at 17-Jan-2021 2:34PM
