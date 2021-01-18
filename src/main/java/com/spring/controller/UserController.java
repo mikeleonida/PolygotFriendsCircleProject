@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,14 +37,19 @@ public class UserController {
 		}
 	}
 	
-	@RequestMapping("/{no}")
-	public ResponseEntity<User> getEmployeeByNo(@PathVariable ("no")  int id ) {
+	@RequestMapping(value = "/{no}", method = RequestMethod.GET)
+	public ResponseEntity<User> getUserByNo(@PathVariable ("no")  int id ) {
 		try {
-			User user = userService.getOne(id);
-			return new ResponseEntity<User>(user, HttpStatus.OK);
+			List<User> users = userService.findAll();
+			for (User u : users) {
+				if (u.getUserId().intValue()==id) {
+					return new ResponseEntity<User>(u, HttpStatus.OK);
+				}
+			}
 		} catch(EntityNotFoundException e) {
-			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+			
 		}
+		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 	}
 	
 	@RequestMapping(value="/users", produces = MediaType.APPLICATION_JSON_VALUE)
