@@ -7,5 +7,5 @@ import com.spring.model.FriendCircle;
 
 @Repository
 public interface FriendCircleRepository extends JpaRepository<FriendCircle, Integer> {
-
+	
 }

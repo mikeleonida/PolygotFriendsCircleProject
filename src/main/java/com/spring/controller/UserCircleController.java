@@ -37,12 +37,13 @@ public class UserCircleController {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
-//	@RequestMapping("/friendcircle/{no}")
-//	public ResponseEntity<List<FriendCircle>> getCircleByUserId(@PathVariable ("no") int userId) {
-//		List<FriendCircle> fc = userCircleService.getFriendCircle(userId);
-//		if (fc != null) {
-//			return new ResponseEntity<>(fc, HttpStatus.OK);
-//		}
-//		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//	}
+	@RequestMapping("/friendcircle/{no}")
+	public ResponseEntity<List<FriendCircle>> getCircleByUserId(@PathVariable ("no") int userId) {
+		//System.out.println("inside UserCircleController::getCircleByUserId");
+		List<FriendCircle> fc = userCircleService.getFriendCircle(userId);
+		if (fc != null && (!fc.isEmpty())) {
+			return new ResponseEntity<>(fc, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
 }

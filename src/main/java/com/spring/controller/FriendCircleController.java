@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,11 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.spring.model.FriendCircle;
 import com.spring.model.User;
 import com.spring.repository.FriendCircleRepository;
+import com.spring.service.FriendCircleService;
 
 @RestController
 public class FriendCircleController {
 	@Autowired
-	private FriendCircleRepository fcService;
+	private FriendCircleService fcService;
 	
 	@RequestMapping(value = "/addfriendcircle", method = RequestMethod.PUT)
 	public ResponseEntity addNewUser(@RequestBody FriendCircle f) {
@@ -46,12 +48,12 @@ public class FriendCircleController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
-//	@RequestMapping(value="/friends/{no}", method = RequestMethod.GET)
-//	public ResponseEntity<List<User>> getFriendsInCircle(@PathVariable("no") int friendCircleId) {
-//		List<User> friends = new ArrayList<User>();
-//		if (friends==null) {
-//			return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
-//		}
-//		return new ResponseEntity<>(friends, HttpStatus.OK);
-//	}
+	@RequestMapping(value="/friends/{no}", method = RequestMethod.GET)
+	public ResponseEntity<List<User>> getFriendsInCircle(@PathVariable("no") int friendCircleId) {
+		List<User> friends = fcService.getFriendsInCircle(friendCircleId);
+		if (friends==null || friends.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
+		}
+		return new ResponseEntity<>(friends, HttpStatus.OK);
+	}
 }
