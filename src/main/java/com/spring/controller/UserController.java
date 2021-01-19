@@ -8,26 +8,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.model.User;
 import com.spring.repository.UserRepository;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
+@RequestMapping
+@Api
 public class UserController {
 	@Autowired
 	private UserRepository userService;
 	
-	@RequestMapping("/")
-	public ResponseEntity welcome() {
-		return new ResponseEntity<>("Hello from Spring Rest Friend Circle", HttpStatus.OK);
-	}
+//	@RequestMapping(value="/", method = RequestMethod.GET)
+//	public String welcome() {
+//		return "redirect:/swagger-ui.html";
+//	}
 	
+	@ApiOperation(value = "Add User")
 	@RequestMapping(value = "/adduser", method = RequestMethod.PUT)
 	public ResponseEntity addNewUser(@RequestBody User u) {
 		try {
@@ -37,7 +45,8 @@ public class UserController {
 		}
 	}
 	
-	@RequestMapping(value = "/{no}", method = RequestMethod.GET)
+	@ApiOperation(value = "Get User By Number")
+	@RequestMapping(value = "/user/{no}", method = RequestMethod.GET)
 	public ResponseEntity<User> getUserByNo(@PathVariable ("no")  int id ) {
 		try {
 			List<User> users = userService.findAll();
@@ -52,7 +61,9 @@ public class UserController {
 		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 	}
 	
-	@RequestMapping(value="/users", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(value = "Get All Users")
+	@RequestMapping(value="/users", method = RequestMethod.GET,
+				produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<User>> getAllUsers() {
 		List<User> users = userService.findAll();
 		if(users == null) {
@@ -61,6 +72,7 @@ public class UserController {
 		return new ResponseEntity<>(users, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Update User")
 	@RequestMapping(value = "/update/{no}", method = RequestMethod.POST)
 	public ResponseEntity updateUser(@RequestBody User u, @PathVariable("no") int id) {
 		try {
